@@ -18,7 +18,43 @@ public class MainActivity extends AppCompatActivity {
     Button btn_1, btn_2, btn_3, btn_4, btn_5, btn_6, btn_7, btn_8, btn_9, btn_0, btn_Add,
             btn_Sub, btn_Mul, btn_Div, btn_calc, btn_doc, btn_clear,btn_left,btn_right,
             btn_exp,btn_log;
+    private void getValue()
+    {
+        number2=Double.parseDouble(ed1.getText()+"");
+        if(sign=="+")
+        {
+            score=number1+number2;
+        }
+        else if(sign=="-")
+        {
+            score=number1-number2;
+        }
+        else if(sign=="*")
+        {
+            score=number1*number2;
+        }
+        else if(sign=="/")
+        {
+            score=number1/number2;
+            if(number2==0)
+            {
+                ed1.setText("Cant divide by 0");
+            }
+        }
+        else if(sign=="^")
+        {
+            score=Math.pow(number1,number2);
+        }
+        else if(sign=="&")
+        {
+            score=Math.log(number1)/Math.log(number2);
+        }
 
+        String assis=ed2.getText().toString();
+        ed2.setText(assis+ed1.getText());
+        ed2.setText(inf);
+        ed1.setText(String.valueOf(score));
+    }
     TextView ed1,ed2;
     double number1;
     double number2,score;
@@ -167,6 +203,10 @@ public class MainActivity extends AppCompatActivity {
         {
             @Override
             public void onClick (View v){
+                if(sign!="")
+                {
+                    getValue();
+                }
                 if(number1==0)
                     number1 = Double.parseDouble(ed1.getText() + "");
                 inf+="+";
@@ -179,40 +219,7 @@ public class MainActivity extends AppCompatActivity {
         {
             @Override
             public void onClick (View v){
-                number2=Double.parseDouble(ed1.getText()+"");
-                if(sign=="+")
-                {
-                    score=number1+number2;
-                }
-                else if(sign=="-")
-                {
-                    score=number1-number2;
-                }
-                else if(sign=="*")
-                {
-                    score=number1*number2;
-                }
-                else if(sign=="/")
-                {
-                    score=number1/number2;
-                    if(number2==0)
-                    {
-                        ed1.setText("Cant divide by 0");
-                    }
-                }
-                else if(sign=="^")
-                {
-                    score=Math.pow(number1,number2);
-                }
-                else if(sign=="&")
-                {
-                    score=Math.log(number1)/Math.log(number2);
-                }
-
-                String assis=ed2.getText().toString();
-                ed2.setText(assis+ed1.getText());
-                ed2.setText(inf);
-                ed1.setText(String.valueOf(score));
+               getValue();
             }
         });
 
@@ -220,6 +227,10 @@ public class MainActivity extends AppCompatActivity {
         {
             @Override
             public void onClick (View v){
+                if(sign!="")
+                {
+                    getValue();
+                }
                 if(number1==0)
                     number1=Float.parseFloat(ed1.getText()+"");
                 sign="*";
@@ -232,6 +243,10 @@ public class MainActivity extends AppCompatActivity {
         {
             @Override
             public void onClick (View v){
+                if(sign!="")
+                {
+                    getValue();
+                }
                 if(number1==0)
                     number1=Float.parseFloat(ed1.getText()+"");
                 sign="/";
@@ -244,6 +259,10 @@ public class MainActivity extends AppCompatActivity {
         {
             @Override
             public void onClick (View v){
+                if(sign!="")
+                {
+                    getValue();
+                }
                 if(number1==0)
                     number1=Float.parseFloat(ed1.getText()+"");
                 sign="-";
@@ -256,6 +275,10 @@ public class MainActivity extends AppCompatActivity {
         {
             @Override
             public void onClick (View v){
+                if(sign!="")
+                {
+                    getValue();
+                }
                 if(number1==0)
                     number1=Float.parseFloat(ed1.getText()+"");
                 sign="&";
@@ -269,8 +292,13 @@ public class MainActivity extends AppCompatActivity {
         {
             @Override
             public void onClick (View v){
-                if(number1==0)
-                    number1=Float.parseFloat(ed1.getText()+"");
+                if(sign!="")
+                {
+                    getValue();
+                }
+                if (number1 == 0)
+                    number1 = Float.parseFloat(ed1.getText() + "");
+
                 sign="^";
                 inf+="^";
                 ed2.setText(ed1.getText() + "^");
