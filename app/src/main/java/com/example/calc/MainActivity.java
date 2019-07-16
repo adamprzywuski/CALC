@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
     Button btn_1, btn_2, btn_3, btn_4, btn_5, btn_6, btn_7, btn_8, btn_9, btn_0, btn_Add,
             btn_Sub, btn_Mul, btn_Div, btn_calc, btn_doc, btn_clear,btn_left,btn_right,
-            btn_exp,btn_root;
+            btn_exp,btn_root,btn_c;
 
     int dot=0;
     int sign=0;
@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
 
 
             }
-                String answer=String.valueOf(stack.pop());
+            String answer=String.valueOf(stack.pop());
             info=answer;
             ed2.setText( answer);
         }
@@ -151,13 +151,14 @@ public class MainActivity extends AppCompatActivity {
         btn_Mul = (Button) findViewById(R.id.buttonmul);
         btn_calc = (Button) findViewById(R.id.buttoneql);
         btn_doc = (Button) findViewById(R.id.button10);
-        btn_clear = (Button) findViewById(R.id.buttonC);
+        btn_clear = (Button) findViewById(R.id.del);
         ed1 = (TextView) findViewById(R.id.textView2);
         ed2 = (TextView) findViewById(R.id.textView4);
         btn_left=(Button) findViewById(R.id.left);
         btn_right=(Button) findViewById(R.id.right);
         btn_exp=(Button) findViewById(R.id.exp);
         btn_root=(Button) findViewById(R.id.roots);
+        btn_c=(Button) findViewById(R.id.buttonC);
 
         ed1.setText("");
         ed2.setText("");
@@ -390,6 +391,26 @@ public class MainActivity extends AppCompatActivity {
                 info="";
                 dot=0;
                 sign=0;
+            }
+        });
+        btn_c.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick (View v){
+            info=info.substring(0,info.length()-1);
+            if(info.charAt(info.length()-2)==' ' )
+            {
+                info=info.substring(0,info.length()-2);
+            }
+           String help=ed1.getText().toString();
+                help=help.substring(0,help.length()-1);
+                if(help.charAt(help.length()-2)==' ' )
+                {
+                    help=help.substring(0,help.length()-2);
+                }
+                ed1.setText(help);
+                sign=0;
+                dot=0;
             }
         });
         
