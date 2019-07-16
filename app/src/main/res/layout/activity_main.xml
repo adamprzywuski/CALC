@@ -342,19 +342,19 @@
             android:text="√"
             android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="match_parent"
-            android:layout_height="106dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="0dp"
-            android:layout_marginBottom="123dp"
-            android:text="CALCULATOR"
-            android:textAlignment="center"
-            android:textAllCaps="true"
-            android:textColor="#8BC34A"
-            android:textSize="50sp" />
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="match_parent"
+        android:layout_height="106dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="17dp"
+        android:text="CALCULATOR"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="#8BC34A"
+        android:textSize="50sp" />
 
         <Button
             android:id="@+id/del"
