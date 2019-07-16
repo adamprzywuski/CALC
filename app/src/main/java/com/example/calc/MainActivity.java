@@ -41,11 +41,10 @@ public class MainActivity extends AppCompatActivity {
                 char c = token.charAt(0);
                 int idx = ops.indexOf(c);
 
-                // check for operator
                 if (idx != -1) {
                     if (s.isEmpty()) {
                         s.push(idx);
-                        //adding sign
+
 
 
                     }
@@ -123,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
                 String answer=String.valueOf(stack.pop());
+            info=answer;
             ed2.setText( answer);
         }
 
@@ -198,6 +198,10 @@ public class MainActivity extends AppCompatActivity {
                 if(dot>=1)
                 {}
                 else {
+                    if (sign==1)
+                    {
+                        info+="0";
+                    }
                     info += (".");
                     ed1.setText(ed1.getText() + ".");
                     dot=1;
@@ -288,6 +292,7 @@ public class MainActivity extends AppCompatActivity {
                 info+="9";
                 ed1.setText(ed1.getText() + "9");
                 sign=0;
+                ed2.setText(" ");
             }
         });
         btn_Add.setOnClickListener(new View.OnClickListener()
