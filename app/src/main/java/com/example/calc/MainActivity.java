@@ -29,85 +29,16 @@ public class MainActivity extends AppCompatActivity {
     String info="";
 
 
-   void ReversePolishNotation()
-    {
-        int i=0;
-      Vector sign=new Vector();
-        Vector output=new Vector();
-      String[] signes={"+","-","*","/"};
-
-        do
-        {
-            for(int j=0;j<=9;j++)
-            if(inf.get(i).equals(Integer.toString(j)))
-            {
-
-                output.add(String.valueOf(j));
-                i++;
-            }
-
-            for(int k=0;k<4;k++)
-            if (inf.get(i).equals(signes[k])) {
-                if(!sign.isEmpty()) {
-                    while ((((inf.get(i).equals("+") || inf.get(i).equals("-")) && (sign.lastElement() == "*" || sign.lastElement() == "/")) ||
-                            (((inf.get(i).equals("+") || inf.get(i).equals("-")) && (sign.lastElement() == "+" || sign.lastElement() == "-")) ||
-                                    ((inf.get(i).equals("*") || inf.get(i).equals("/")) && (sign.lastElement() == "*" || sign.lastElement() == "/"))))
-                            && (sign.lastElement() != "(")) {
-                        if (!output.isEmpty()) {
-                            output.addAll(sign);
-                        }
-
-                    }
-                }
-                sign.add(signes[k]);
-                i++;
-            }
-            if(inf.get(i)=="(")
-            {
-                sign.add("(");
-                i++;
-            }
-            if(inf.get(i)==")")
-            {
-                while(sign.lastElement()!="(") {
-                    output.add(sign.lastElement());
-
-                }
-                if(sign.lastElement()=="(")
-                {
-                    sign.remove(sign.lastElement());
-
-                }
-                i++;
-
-            }
-
-
-        }while(inf.get(i)!=null);
-        String checking="";
-        if(sign.isEmpty())
-        {
-            output.addAll(sign);
-        }
-        for(int a=0;a<output.size();a++)
-        {
-            checking+=output.get(a);
-        }
-        ed2.setText(checking);
-
-    }
 
 
          String infixToPostfix(String infix) {
-	        /* To find out the precedence, we take the index of the
-	           token in the ops string and divide by 2 (rounding down).
-	           This will give us: 0, 0, 1, 1, 2 */
-            final String ops = "-+/*^";
+
+            final String ops = "-+/*^&";
 
             StringBuilder sb = new StringBuilder();
             Stack<Integer> s = new Stack<>();
-
             for (String token : infix.split("\\s")) {
+
                 if (token.isEmpty())
                     continue;
                 char c = token.charAt(0);
@@ -115,9 +46,12 @@ public class MainActivity extends AppCompatActivity {
 
                 // check for operator
                 if (idx != -1) {
-                    if (s.isEmpty())
+                    if (s.isEmpty()) {
                         s.push(idx);
+                        //adding sign
 
+
+                    }
                     else {
                         while (!s.isEmpty()) {
                             int prec2 = s.peek() / 2;
@@ -137,10 +71,13 @@ public class MainActivity extends AppCompatActivity {
                     s.pop();
                 } else {
                     sb.append(token).append(' ');
+
                 }
             }
             while (!s.isEmpty())
+
                 sb.append(ops.charAt(s.pop())).append(' ');
+
             return sb.toString();
         }
 
@@ -150,41 +87,41 @@ public class MainActivity extends AppCompatActivity {
                 EmptyStackException {
             Stack<Double> stack = new Stack<>();
 
-            System.out.println(expr);
-            System.out.println("Input\tOperation\tStack after");
-
             for (String token : expr.split("\\s+")) {
                 System.out.print(token + "\t");
                 switch (token) {
                     case "+":
-                        System.out.print("Operate\t\t");
+
                         stack.push(stack.pop() + stack.pop());
                         break;
                     case "-":
-                        System.out.print("Operate\t\t");
+
                         stack.push(-stack.pop() + stack.pop());
                         break;
                     case "*":
-                        System.out.print("Operate\t\t");
+
                         stack.push(stack.pop() * stack.pop());
                         break;
                     case "/":
-                        System.out.print("Operate\t\t");
+
                         double divisor = stack.pop();
                         stack.push(stack.pop() / divisor);
                         break;
                     case "^":
-                        System.out.print("Operate\t\t");
+
                         double exponent = stack.pop();
                         stack.push(Math.pow(stack.pop(), exponent));
                         break;
+                    case"&":
+                        double logarithm=stack.pop();
+                        stack.push((Math.log10(stack.pop()))/(Math.log10(logarithm)));
                     default:
-                        System.out.print("Push\t\t");
+
                         stack.push(Double.parseDouble(token));
                         break;
                 }
 
-              //  System.out.println(stack);
+
             }
                 String answer=String.valueOf(stack.pop());
             ed2.setText( answer);
@@ -232,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick (View v){
                 ed1.setText(ed1.getText() + "0");
 
-                info+="0 ";
+                info+="0";
 
 
             }
@@ -243,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick (View v){
                 ed1.setText(ed1.getText() + "(");
-                info+="( ";
+                info+=" ( ";
             }
         });
         btn_right.setOnClickListener(new View.OnClickListener()
@@ -251,14 +188,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick (View v){
                 ed1.setText(ed1.getText() + ")");
-                info+=") ";
+                info+=" ) ";
             }
         });
         btn_doc.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick (View v){
-                inf.add(".");
+                info+=(".");
+                ed1.setText(ed1.getText() + ".");
             }
         });
 
@@ -267,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick (View v){
                 ed1.setText(ed1.getText() + "1");
-                info+="1 ";
+                info+="1";
 
 
             }
@@ -277,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick (View v){
                 ed1.setText(ed1.getText() + "2");
-                info+="2 ";
+                info+="2";
 
 
             }
@@ -287,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick (View v){
                 ed1.setText(ed1.getText() + "3");
-                info+="3 ";
+                info+="3";
 
             }
         });
@@ -296,7 +234,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick (View v){
                 ed1.setText(ed1.getText() + "4");
-                info+="4 ";
+                info+="4";
 
             }
         });
@@ -305,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick (View v){
                 ed1.setText(ed1.getText() + "5");
-                info+="5 ";
+                info+="5";
 
             }
         });
@@ -313,7 +251,7 @@ public class MainActivity extends AppCompatActivity {
         {
             @Override
             public void onClick (View v){
-                info+="6 ";
+                info+="6";
                 ed1.setText(ed1.getText() + "6");
             }
         });
@@ -321,7 +259,7 @@ public class MainActivity extends AppCompatActivity {
         {
             @Override
             public void onClick (View v){
-                info+="7 ";
+                info+="7";
                 ed1.setText(ed1.getText() + "7");
             }
         });
@@ -329,7 +267,7 @@ public class MainActivity extends AppCompatActivity {
         {
             @Override
             public void onClick (View v){
-                info+="8 ";
+                info+="8";
                 ed1.setText(ed1.getText() + "8");
             }
         });
@@ -338,7 +276,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick (View v){
 
-                info+="9 ";
+                info+="9";
                 ed1.setText(ed1.getText() + "9");
             }
         });
@@ -347,7 +285,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick (View v){
 
-                info+="+ ";
+                info+=" + ";
                 sign="+";
                 ed1.setText(ed1.getText() + "+");
 
@@ -369,9 +307,9 @@ public class MainActivity extends AppCompatActivity {
         {
             @Override
             public void onClick (View v){
-                sign="* ";
+                sign=" * ";
                 ed1.setText(ed1.getText() + "*");
-                info+="* ";
+                info+=" * ";
             }
         });
         btn_Div.setOnClickListener(new View.OnClickListener()
@@ -380,7 +318,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick (View v){
                 sign="/";
                 ed1.setText(ed1.getText() + "/");
-                info+="/ ";
+                info+=" / ";
             }
         });
         btn_Sub.setOnClickListener(new View.OnClickListener()
@@ -390,7 +328,7 @@ public class MainActivity extends AppCompatActivity {
 
                 sign="-";
                 ed1.setText(ed1.getText() + "-");
-                info+="- ";
+                info+=" - ";
             }
         });
         btn_log.setOnClickListener(new View.OnClickListener()
@@ -407,7 +345,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick (View v){
                 sign="^";
-                info+="^ ";
+                info+=" ^ ";
                 ed1.setText(ed1.getText() + "^");
             }
         });
