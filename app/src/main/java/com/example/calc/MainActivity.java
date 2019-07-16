@@ -7,7 +7,9 @@ import android.view.View;
 import android.widget.Button;
 
 import android.widget.EditText;
-import java.lang.*;
+import java.lang.String;
+import java.util.*;
+
 
 import android.os.Bundle;
 import android.widget.TextView;
@@ -18,48 +20,181 @@ public class MainActivity extends AppCompatActivity {
     Button btn_1, btn_2, btn_3, btn_4, btn_5, btn_6, btn_7, btn_8, btn_9, btn_0, btn_Add,
             btn_Sub, btn_Mul, btn_Div, btn_calc, btn_doc, btn_clear,btn_left,btn_right,
             btn_exp,btn_log;
-    private void getValue()
+
+
+    TextView ed1,ed2;
+
+    LinkedList<String> inf = new LinkedList<String>();
+    String sign;
+    String info="";
+
+
+   void ReversePolishNotation()
     {
-        number2=Double.parseDouble(ed1.getText()+"");
-        if(sign=="+")
+        int i=0;
+      Vector sign=new Vector();
+        Vector output=new Vector();
+      String[] signes={"+","-","*","/"};
+
+        do
         {
-            score=number1+number2;
-        }
-        else if(sign=="-")
-        {
-            score=number1-number2;
-        }
-        else if(sign=="*")
-        {
-            score=number1*number2;
-        }
-        else if(sign=="/")
-        {
-            score=number1/number2;
-            if(number2==0)
+            for(int j=0;j<=9;j++)
+            if(inf.get(i).equals(Integer.toString(j)))
             {
-                ed1.setText("Cant divide by 0");
+
+                output.add(String.valueOf(j));
+                i++;
             }
-        }
-        else if(sign=="^")
+
+            for(int k=0;k<4;k++)
+            if (inf.get(i).equals(signes[k])) {
+                if(!sign.isEmpty()) {
+                    while ((((inf.get(i).equals("+") || inf.get(i).equals("-")) && (sign.lastElement() == "*" || sign.lastElement() == "/")) ||
+                            (((inf.get(i).equals("+") || inf.get(i).equals("-")) && (sign.lastElement() == "+" || sign.lastElement() == "-")) ||
+                                    ((inf.get(i).equals("*") || inf.get(i).equals("/")) && (sign.lastElement() == "*" || sign.lastElement() == "/"))))
+                            && (sign.lastElement() != "(")) {
+                        if (!output.isEmpty()) {
+                            output.addAll(sign);
+                        }
+
+                    }
+                }
+                sign.add(signes[k]);
+                i++;
+            }
+            if(inf.get(i)=="(")
+            {
+                sign.add("(");
+                i++;
+            }
+            if(inf.get(i)==")")
+            {
+                while(sign.lastElement()!="(") {
+                    output.add(sign.lastElement());
+
+                }
+                if(sign.lastElement()=="(")
+                {
+                    sign.remove(sign.lastElement());
+
+                }
+                i++;
+
+            }
+
+
+        }while(inf.get(i)!=null);
+        String checking="";
+        if(sign.isEmpty())
         {
-            score=Math.pow(number1,number2);
+            output.addAll(sign);
         }
-        else if(sign=="&")
+        for(int a=0;a<output.size();a++)
         {
-            score=Math.log(number1)/Math.log(number2);
+            checking+=output.get(a);
+        }
+        ed2.setText(checking);
+
+    }
+
+
+         String infixToPostfix(String infix) {
+	        /* To find out the precedence, we take the index of the
+	           token in the ops string and divide by 2 (rounding down).
+	           This will give us: 0, 0, 1, 1, 2 */
+            final String ops = "-+/*^";
+
+            StringBuilder sb = new StringBuilder();
+            Stack<Integer> s = new Stack<>();
+
+            for (String token : infix.split("\\s")) {
+                if (token.isEmpty())
+                    continue;
+                char c = token.charAt(0);
+                int idx = ops.indexOf(c);
+
+                // check for operator
+                if (idx != -1) {
+                    if (s.isEmpty())
+                        s.push(idx);
+
+                    else {
+                        while (!s.isEmpty()) {
+                            int prec2 = s.peek() / 2;
+                            int prec1 = idx / 2;
+                            if (prec2 > prec1 || (prec2 == prec1 && c != '^'))
+                                sb.append(ops.charAt(s.pop())).append(' ');
+                            else break;
+                        }
+                        s.push(idx);
+                    }
+                } else if (c == '(') {
+                    s.push(-2); // -2 stands for '('
+                } else if (c == ')') {
+                    // until '(' on stack, pop operators.
+                    while (s.peek() != -2)
+                        sb.append(ops.charAt(s.pop())).append(' ');
+                    s.pop();
+                } else {
+                    sb.append(token).append(' ');
+                }
+            }
+            while (!s.isEmpty())
+                sb.append(ops.charAt(s.pop())).append(' ');
+            return sb.toString();
         }
 
-        String assis=ed2.getText().toString();
-        ed2.setText(assis+ed1.getText());
-        ed2.setText(inf);
-        ed1.setText(String.valueOf(score));
-    }
-    TextView ed1,ed2;
-    double number1;
-    double number2,score;
-    String sign = "";
-    String inf="";
+
+        void compute(String expr) throws
+                ArithmeticException,
+                EmptyStackException {
+            Stack<Double> stack = new Stack<>();
+
+            System.out.println(expr);
+            System.out.println("Input\tOperation\tStack after");
+
+            for (String token : expr.split("\\s+")) {
+                System.out.print(token + "\t");
+                switch (token) {
+                    case "+":
+                        System.out.print("Operate\t\t");
+                        stack.push(stack.pop() + stack.pop());
+                        break;
+                    case "-":
+                        System.out.print("Operate\t\t");
+                        stack.push(-stack.pop() + stack.pop());
+                        break;
+                    case "*":
+                        System.out.print("Operate\t\t");
+                        stack.push(stack.pop() * stack.pop());
+                        break;
+                    case "/":
+                        System.out.print("Operate\t\t");
+                        double divisor = stack.pop();
+                        stack.push(stack.pop() / divisor);
+                        break;
+                    case "^":
+                        System.out.print("Operate\t\t");
+                        double exponent = stack.pop();
+                        stack.push(Math.pow(stack.pop(), exponent));
+                        break;
+                    default:
+                        System.out.print("Push\t\t");
+                        stack.push(Double.parseDouble(token));
+                        break;
+                }
+
+              //  System.out.println(stack);
+            }
+                String answer=String.valueOf(stack.pop());
+            ed2.setText( answer);
+        }
+
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,7 +231,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick (View v){
                 ed1.setText(ed1.getText() + "0");
-                inf+="0";
+
+                info+="0 ";
+
 
             }
         });
@@ -106,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick (View v){
                 ed1.setText(ed1.getText() + "(");
-                inf+="(";
+                info+="( ";
             }
         });
         btn_right.setOnClickListener(new View.OnClickListener()
@@ -114,14 +251,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick (View v){
                 ed1.setText(ed1.getText() + ")");
-                inf+=")";
+                info+=") ";
             }
         });
         btn_doc.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick (View v){
-                ed1.setText(ed1.getText() + ".");
+                inf.add(".");
             }
         });
 
@@ -130,7 +267,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick (View v){
                 ed1.setText(ed1.getText() + "1");
-                inf+="1";
+                info+="1 ";
+
 
             }
         });
@@ -139,7 +277,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick (View v){
                 ed1.setText(ed1.getText() + "2");
-                inf+="2";
+                info+="2 ";
+
 
             }
         });
@@ -148,7 +287,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick (View v){
                 ed1.setText(ed1.getText() + "3");
-                inf+="3";
+                info+="3 ";
+
             }
         });
         btn_4.setOnClickListener(new View.OnClickListener()
@@ -156,7 +296,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick (View v){
                 ed1.setText(ed1.getText() + "4");
-                inf+="4";
+                info+="4 ";
+
             }
         });
         btn_5.setOnClickListener(new View.OnClickListener()
@@ -164,14 +305,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick (View v){
                 ed1.setText(ed1.getText() + "5");
-                inf+="5";
+                info+="5 ";
+
             }
         });
         btn_6.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick (View v){
-                inf+="6";
+                info+="6 ";
                 ed1.setText(ed1.getText() + "6");
             }
         });
@@ -179,7 +321,7 @@ public class MainActivity extends AppCompatActivity {
         {
             @Override
             public void onClick (View v){
-                inf+="7";
+                info+="7 ";
                 ed1.setText(ed1.getText() + "7");
             }
         });
@@ -187,7 +329,7 @@ public class MainActivity extends AppCompatActivity {
         {
             @Override
             public void onClick (View v){
-            inf+="8";
+                info+="8 ";
                 ed1.setText(ed1.getText() + "8");
             }
         });
@@ -195,7 +337,8 @@ public class MainActivity extends AppCompatActivity {
         {
             @Override
             public void onClick (View v){
-                inf+="9";
+
+                info+="9 ";
                 ed1.setText(ed1.getText() + "9");
             }
         });
@@ -203,23 +346,22 @@ public class MainActivity extends AppCompatActivity {
         {
             @Override
             public void onClick (View v){
-                if(sign!="")
-                {
-                    getValue();
-                }
-                if(number1==0)
-                    number1 = Double.parseDouble(ed1.getText() + "");
-                inf+="+";
+
+                info+="+ ";
                 sign="+";
-                ed2.setText(ed1.getText() + "+");
-                ed1.setText("");
+                ed1.setText(ed1.getText() + "+");
+
             }
         });
         btn_calc.setOnClickListener(new View.OnClickListener()
         {
             @Override
-            public void onClick (View v){
-               getValue();
+            public void onClick (View v) {
+                //getValue();
+                String ex="";
+           //ReversePolishNotation();
+              // info.charAt(info.length()-1);
+                compute(infixToPostfix(info));
             }
         });
 
@@ -227,83 +369,46 @@ public class MainActivity extends AppCompatActivity {
         {
             @Override
             public void onClick (View v){
-                if(sign!="")
-                {
-                    getValue();
-                }
-                if(number1==0)
-                    number1=Float.parseFloat(ed1.getText()+"");
-                sign="*";
-                ed2.setText(ed1.getText() + "*");
-                ed1.setText("");
-                inf+="*";
+                sign="* ";
+                ed1.setText(ed1.getText() + "*");
+                info+="* ";
             }
         });
         btn_Div.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick (View v){
-                if(sign!="")
-                {
-                    getValue();
-                }
-                if(number1==0)
-                    number1=Float.parseFloat(ed1.getText()+"");
                 sign="/";
-                ed2.setText(ed1.getText() + "/");
-                ed1.setText("");
-                inf+="/";
+                ed1.setText(ed1.getText() + "/");
+                info+="/ ";
             }
         });
         btn_Sub.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick (View v){
-                if(sign!="")
-                {
-                    getValue();
-                }
-                if(number1==0)
-                    number1=Float.parseFloat(ed1.getText()+"");
+
                 sign="-";
-                ed2.setText(ed1.getText() + "-");
-                ed1.setText("");
-                inf+="-";
+                ed1.setText(ed1.getText() + "-");
+                info+="- ";
             }
         });
         btn_log.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick (View v){
-                if(sign!="")
-                {
-                    getValue();
-                }
-                if(number1==0)
-                    number1=Float.parseFloat(ed1.getText()+"");
                 sign="&";
-                inf+="&";
-                ed2.setText(ed1.getText() + "Logarithm");
-                ed1.setText("");
-
+                info+="& ";
+                ed1.setText(ed1.getText() + "Logarithm");
             }
         });
         btn_exp.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick (View v){
-                if(sign!="")
-                {
-                    getValue();
-                }
-                if (number1 == 0)
-                    number1 = Float.parseFloat(ed1.getText() + "");
-
                 sign="^";
-                inf+="^";
-                ed2.setText(ed1.getText() + "^");
-                ed1.setText("");
-
+                info+="^ ";
+                ed1.setText(ed1.getText() + "^");
             }
         });
         btn_clear.setOnClickListener(new View.OnClickListener()
@@ -312,13 +417,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick (View v){
                 ed1.setText("");
                 ed2.setText("");
-                number2=0;
-                number1=0;
                 sign="";
-                inf="";
+                info="";
+
             }
         });
-
 
 
 

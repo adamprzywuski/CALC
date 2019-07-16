@@ -2,19 +2,19 @@ package com.example.calc;
 
 public class Mathematic {
 
-    double add(double a,double b)
+   public double add(double a,double b)
     {
         return a+b;
     }
-    double sub(double a,double b)
+   public double sub(double a,double b)
     {
         return a-b;
     }
-    double div(double a,double b)
+    public double div(double a,double b)
     {
         return a/b;
     }
-    double mul(double a,double b)
+   public double mul(double a,double b)
     {
         return a*b;
     }
