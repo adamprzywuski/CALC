@@ -218,12 +218,11 @@ public class MainActivity extends AppCompatActivity {
         {
             @Override
             public void onClick (View v){
-                if(bracket==true)
-                {
+
                 ed1.setText(ed1.getText() + ")");
                 info+=" ) ";
                 bracket=false;
-            }}
+            }
         });
         btn_doc.setOnClickListener(new View.OnClickListener()
         {
