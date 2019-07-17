@@ -127,6 +127,10 @@ public class MainActivity extends AppCompatActivity {
                         stack.push(Math.pow(stack.pop(), exponent));
                         break;
                     case"$":
+                        if(stack.size()<=1)
+                        {
+                            ed2.setText("Wrong write:[degree][root_sign][radicand]");
+                        }
                         double root=stack.pop();
                         stack.push(Math.pow(root, 1 /stack.pop() ));
                         break;
@@ -188,11 +192,15 @@ public class MainActivity extends AppCompatActivity {
         {
             @Override
             public void onClick (View v){
-                ed1.setText(ed1.getText() + "0");
+              if(afterScore) {
+                  ed1.setText("Clear the view");
+              }
+              else{
+                  ed1.setText(ed1.getText() + "0");
 
-                info+="0";
-
-
+                  info += "0";
+                  sign=false;
+              }
             }
         });
         btn_left.setOnClickListener(new View.OnClickListener()
@@ -235,19 +243,29 @@ public class MainActivity extends AppCompatActivity {
         {
             @Override
             public void onClick (View v){
-                ed1.setText(ed1.getText() + "1");
-                info+="1";
-                sign=false;
+                if(afterScore) {
+                    ed1.setText("Clear the view");
+                }
+                else{
+                    ed1.setText(ed1.getText() + "1");
+                    sign=false;
 
+                    info += "1";
+                }
             }
         });
         btn_2.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick (View v){
-                ed1.setText(ed1.getText() + "2");
-                info+="2";
-                sign=false;
+                if(afterScore) {
+                    ed1.setText("Clear the view");
+                }
+                else{
+                    ed1.setText(ed1.getText() + "2");
+                    sign=false;
+                    info += "2";
+                }
 
             }
         });
@@ -255,54 +273,84 @@ public class MainActivity extends AppCompatActivity {
         {
             @Override
             public void onClick (View v){
-                ed1.setText(ed1.getText() + "3");
-                info+="3";
-                sign=false;
+                if(afterScore) {
+                    ed1.setText("Clear the view");
+                }
+                else{
+                    ed1.setText(ed1.getText() + "3");
+                    sign=false;
+                    info += "3";
+                }
             }
         });
         btn_4.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick (View v){
-                ed1.setText(ed1.getText() + "4");
-                info+="4";
-                sign=false;
+                if(afterScore) {
+                    ed1.setText("Clear the view");
+                }
+                else{
+                    ed1.setText(ed1.getText() + "4");
+                    sign=false;
+                    info += "4";
+                }
             }
         });
         btn_5.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick (View v){
-                ed1.setText(ed1.getText() + "5");
-                info+="5";
-                sign=false;
+                if(afterScore) {
+                    ed1.setText("Clear the view");
+                }
+                else{
+                    ed1.setText(ed1.getText() + "5");
+                    sign=false;
+                    info += "5";
+                }
             }
         });
         btn_6.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick (View v){
-                info+="6";
-                ed1.setText(ed1.getText() + "6");
-                sign=false;
+                if(afterScore) {
+                    ed1.setText("Clear the view");
+                }
+                else{
+                    ed1.setText(ed1.getText() + "6");
+                    sign=false;
+                    info += "6";
+                }
             }
         });
         btn_7.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick (View v){
-                info+="7";
-                ed1.setText(ed1.getText() + "7");
-                sign=false;
+                if(afterScore) {
+                    ed1.setText("Clear the view");
+                }
+                else{
+                    ed1.setText(ed1.getText() + "7");
+                    sign=false;
+                    info += "7";
+                }
             }
         });
         btn_8.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick (View v){
-                info+="8";
-                ed1.setText(ed1.getText() + "8");
-                sign=false;
+                if(afterScore) {
+                    ed1.setText("Clear the view");
+                }
+                else{
+                    ed1.setText(ed1.getText() + "8");
+                    sign=false;
+                    info += "8";
+                }
             }
         });
         btn_9.setOnClickListener(new View.OnClickListener()
@@ -310,10 +358,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick (View v){
 
-                info+="9";
-                ed1.setText(ed1.getText() + "9");
-                sign=false;
-                ed2.setText(" ");
+                if(afterScore) {
+                    ed1.setText("Clear the view");
+                }
+                else{
+                    ed1.setText(ed1.getText() + "9");
+                    sign=false;
+                    info += "9";
+                }
             }
         });
         btn_Add.setOnClickListener(new View.OnClickListener()
@@ -325,7 +377,7 @@ public class MainActivity extends AppCompatActivity {
                 else {
                     info += " + ";
                     dot = false;
-                    sign=true;
+                    sign = true;
                     ed1.setText(ed1.getText() + "+");
                 }
             }
@@ -385,15 +437,20 @@ public class MainActivity extends AppCompatActivity {
         {
             @Override
             public void onClick (View v){
-                if(sign)
-                { }
-                else
+                if(info.length()==0)
                 {
-                dot=false;
-                sign=true;
-                info+=" $ ";
-                ed1.setText(ed1.getText() + "√");
-            }}
+                    ed2.setText("Wrong write:[degree][root_sign][radicand]");
+                }
+                else if(sign)
+                { }
+
+                else {
+                    dot = false;
+                    sign = true;
+                    info += " $ ";
+                    ed1.setText(ed1.getText() + "√");
+                }
+            }
         });
         btn_exp.setOnClickListener(new View.OnClickListener()
         {
@@ -417,6 +474,7 @@ public class MainActivity extends AppCompatActivity {
                 info="";
                 dot=false;
                 sign=true;
+                afterScore=false;
             }
         });
         btn_c.setOnClickListener(new View.OnClickListener()
