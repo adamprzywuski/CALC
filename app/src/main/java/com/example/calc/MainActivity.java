@@ -3,11 +3,13 @@ package com.example.calc;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import java.lang.String;
 import java.util.*;
+import java.util.regex.Pattern;
 
 
 import android.widget.TextView;
@@ -36,7 +38,11 @@ public class MainActivity extends AppCompatActivity {
             StringBuilder sb = new StringBuilder();
             Stack<Integer> s = new Stack<>();
             for (String token : infix.split("\\s")) {
-
+                if(Pattern.matches("[-][0-9]+(.[0-9]+)*",token))
+                {
+                    sb.append(token).append(' ');
+                    continue;
+                }
                 if (token.isEmpty())
                     continue;
                 char c = token.charAt(0);
@@ -82,16 +88,24 @@ public class MainActivity extends AppCompatActivity {
         void compute(String expr) throws
                 ArithmeticException,
                 EmptyStackException {
-            Stack<Double> stack = new Stack<>();
+                int i=0;
 
-            for (String token : expr.split("\\s+")) {
+             Stack<Double> stack = new Stack<>();
+             for (String token : expr.split("\\s+")) {
+
                 switch (token) {
                     case "+":
                         stack.push(stack.pop() + stack.pop());
                         break;
                     case "-":
+                        if(stack.empty())
+                        {
+                            stack.push(Double.parseDouble(token));
+                        }
                         stack.push(-stack.pop() + stack.pop());
-                        break;
+
+                            break;
+
                     case "*":
 
                         stack.push(stack.pop() * stack.pop());
@@ -114,8 +128,11 @@ public class MainActivity extends AppCompatActivity {
                         double root=stack.pop();
                         stack.push(Math.pow(root, 1 /stack.pop() ));
                         break;
+
                     default:
+                        
                         stack.push(Double.parseDouble(token));
+
                         break;
                 }
 
@@ -352,11 +369,15 @@ public class MainActivity extends AppCompatActivity {
         {
             @Override
             public void onClick (View v){
-         //       if(info.length()!=0)
-            //    {
-        //            ed1.setText("-");
-        //        }
-                if(sign)
+                if(info.length()==0)
+                {
+                   ed1.setText("-");
+                   info="-";
+                    dot=false;
+                    sign=true;
+               }
+
+                else if(sign)
                 { }
                 else{
                 dot=false;
@@ -408,9 +429,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick (View v) {
                 if (afterScore) {
-                    ed1.setText("");
-                    ed2.setText("");
-                    info = "";
+
                     dot = false;
                     sign =false;
                 } else {
