@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     boolean dot=false;
     boolean sign=true;
     boolean afterScore=false;
+    boolean bracket=false;
     TextView ed1,ed2;
     
     
@@ -210,15 +211,19 @@ public class MainActivity extends AppCompatActivity {
             public void onClick (View v){
                 ed1.setText(ed1.getText() + "(");
                 info+=" ( ";
+                bracket=true;
             }
         });
         btn_right.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick (View v){
+                if(bracket==true)
+                {
                 ed1.setText(ed1.getText() + ")");
                 info+=" ) ";
-            }
+                bracket=false;
+            }}
         });
         btn_doc.setOnClickListener(new View.OnClickListener()
         {
@@ -388,9 +393,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick (View v) {
                 dot=false;
-
+            if(bracket)
+            {
+                info+=" ) ";
+            }
+            try {
                 compute(infixToPostfix(info));
-                afterScore=false;
+                afterScore = true;
+            }catch(Exception e)
+            {
+                ed1.setText("Wrong format of data");
+            }
             }
         });
 
@@ -444,7 +457,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick (View v){
                 if(info.length()==0)
                 {
-                    ed2.setText("Wrong write:[degree][root_sign][radicand]");
+                    ed2.setText("Wrong write:[degree]√ [radicand]");
+
                 }
                 else if(sign)
                 { }
@@ -482,12 +496,22 @@ public class MainActivity extends AppCompatActivity {
                 dot=false;
                 sign=true;
                 afterScore=false;
+                bracket=false;
             }
         });
         btn_c.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick (View v) {
+                if(info.length()<=1)
+                {
+                    ed1.setText("");
+                    ed2.setText("");
+                    info="";
+                    dot=false;
+                    sign=true;
+                    afterScore=false;
+                }
                 if (afterScore) {
 
                     dot = false;
@@ -501,7 +525,7 @@ public class MainActivity extends AppCompatActivity {
                      else if (info.charAt(info.length() - 2) == ' ') {
                         info = info.substring(0, info.length() - 2);
                     }
-                     
+
                     ed1.setText(info);
                     sign = false;
                     dot = false;
