@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         void compute(String expr) throws
                 ArithmeticException,
                 EmptyStackException {
-                int i=0;
+
 
              Stack<Double> stack = new Stack<>();
              for (String token : expr.split("\\s+")) {
@@ -103,11 +103,8 @@ public class MainActivity extends AppCompatActivity {
                             stack.push(Double.parseDouble(token));
                         }
                         stack.push(-stack.pop() + stack.pop());
-
                             break;
-
                     case "*":
-
                         stack.push(stack.pop() * stack.pop());
                         break;
                     case "/":
@@ -122,6 +119,11 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case "^":
                         double exponent = stack.pop();
+                        if(exponent==0)
+                        {
+                            ed2.setText("Cant divide by 0");
+                            return ;
+                        }
                         stack.push(Math.pow(stack.pop(), exponent));
                         break;
                     case"$":
@@ -324,8 +326,6 @@ public class MainActivity extends AppCompatActivity {
                     info += " + ";
                     dot = false;
                     sign=true;
-
-
                     ed1.setText(ed1.getText() + "+");
                 }
             }
@@ -369,7 +369,6 @@ public class MainActivity extends AppCompatActivity {
         {
             @Override
             public void onClick (View v){
-
                 if(sign)
                 {   ed1.setText(ed1.getText()+"-");
                     info+="-";
