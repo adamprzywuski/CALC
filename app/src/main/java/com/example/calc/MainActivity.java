@@ -379,6 +379,7 @@ public class MainActivity extends AppCompatActivity {
                     dot = false;
                     sign = true;
                     ed1.setText(ed1.getText() + "+");
+                    afterScore=false;
                 }
             }
         });
@@ -389,6 +390,7 @@ public class MainActivity extends AppCompatActivity {
                 dot=false;
 
                 compute(infixToPostfix(info));
+                afterScore=false;
             }
         });
 
@@ -403,6 +405,7 @@ public class MainActivity extends AppCompatActivity {
                 info+=" * ";
                 dot=false;
                 sign=true;
+                afterScore=false;
             }}
         });
         btn_Div.setOnClickListener(new View.OnClickListener()
@@ -415,6 +418,7 @@ public class MainActivity extends AppCompatActivity {
                 sign=true;
                 ed1.setText(ed1.getText() + "/");
                 info+=" / ";
+                afterScore=false;
             }}
         });
         btn_Sub.setOnClickListener(new View.OnClickListener()
@@ -431,6 +435,7 @@ public class MainActivity extends AppCompatActivity {
                 sign=true;
                 ed1.setText(ed1.getText() + "-");
                 info+=" - ";
+                afterScore=false;
             }}
         });
         btn_root.setOnClickListener(new View.OnClickListener()
@@ -449,6 +454,7 @@ public class MainActivity extends AppCompatActivity {
                     sign = true;
                     info += " $ ";
                     ed1.setText(ed1.getText() + "√");
+                    afterScore=false;
                 }
             }
         });
@@ -463,6 +469,7 @@ public class MainActivity extends AppCompatActivity {
                 sign=true;
                 dot=false;
                 ed1.setText(ed1.getText() + "^");
+        afterScore=false;
             }}
         });
         btn_clear.setOnClickListener(new View.OnClickListener()
@@ -487,16 +494,15 @@ public class MainActivity extends AppCompatActivity {
                     sign =false;
                 } else {
                     info = info.substring(0, info.length() - 1);
-                    if (info.charAt(info.length() - 2) == ' ') {
+                    if(info.length()<=1)
+                    {
+
+                    }
+                     else if (info.charAt(info.length() - 2) == ' ') {
                         info = info.substring(0, info.length() - 2);
                     }
-                    String help = ed1.getText().toString();
-                    help = help.substring(0, help.length() - 1);
-                    if (help.charAt(help.length() - 2) == ' ') {
-                        help = help.substring(0, help.length() - 2);
-                    }
-
-                    ed1.setText(help);
+                     
+                    ed1.setText(info);
                     sign = false;
                     dot = false;
                 }
