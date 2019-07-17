@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
             btn_exp,btn_root,btn_c;
 
     boolean dot=false;
-    boolean sign=false;
+    boolean sign=true;
     boolean afterScore=false;
     TextView ed1,ed2;
     
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                         stack.push(stack.pop() + stack.pop());
                         break;
                     case "-":
-                        if(stack.empty())
+                        if(stack.size()<=1)
                         {
                             stack.push(Double.parseDouble(token));
                         }
@@ -369,16 +369,12 @@ public class MainActivity extends AppCompatActivity {
         {
             @Override
             public void onClick (View v){
-                if(info.length()==0)
-                {
-                   ed1.setText("-");
-                   info="-";
-                    dot=false;
-                    sign=true;
-               }
 
-                else if(sign)
-                { }
+                if(sign)
+                {   ed1.setText(ed1.getText()+"-");
+                    info+="-";
+                    dot=false;
+                    sign=true; }
                 else{
                 dot=false;
                 sign=true;
