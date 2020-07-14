@@ -410,7 +410,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (info.length() == 0) {
-                    ed2.setText("Wrong write:[degree]√ [radicand]");
+                    ed2.setText("Wrong write:[degree]√ [radiance]");
 
                 } else if (sign) {
                 } else {
